@@ -11,7 +11,7 @@ public class GreetingController {
 
     private static final String TEMPLATE = "Hello, %s!";
 
-    @GetMapping
+    @GetMapping("/hello")
     public Greeting getGreeting(
             @RequestParam(required = false, defaultValue = "World") String name,
             @RequestParam(required = false, defaultValue = "World") String surname
