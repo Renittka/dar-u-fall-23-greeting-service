@@ -1,13 +1,19 @@
 package kz.dar.university.greetingservice.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import kz.dar.university.greetingservice.service.SendService;
 import kz.dar.university.greetingservice.domain.Greeting;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
 @RequestMapping("/greeting")
+@RequiredArgsConstructor
 public class GreetingController {
+
+    private final SendService sendService;
 
     private static final String TEMPLATE = "Hello, %s!";
 
@@ -19,7 +25,12 @@ public class GreetingController {
         log.info("Name: " + name);
         log.info("Surname: " + surname);
         log.info("getGreeting with request param");
-        return new Greeting(String.format(TEMPLATE, name));
+
+        Greeting greeting = new Greeting(String.format(TEMPLATE, name));
+
+        sendService.sendMessage(greeting);
+
+        return greeting;
     }
 
     /*
